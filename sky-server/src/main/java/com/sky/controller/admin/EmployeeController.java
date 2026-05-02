@@ -101,4 +101,42 @@ public class EmployeeController {
         return Result.success(pageResult);
     }
 
+    /**
+     * 因为是非查询的方法，所以不用泛型，只写Result
+     * 第一个是路径参数要加@PathVariable
+     * post请求，记得添加@PostMapping
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用、禁用员工账号")
+    public Result startOrstop(@PathVariable Integer status, Long id) {
+        log.info("启用、禁用员工账号,{},{}", status, id);
+        employeeService.startOrstop(status, id);
+        return Result.success();
+    }
+
+    /**
+     * 根据员工id查询员工相关信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据员工id查询员工相关信息")
+    public Result<Employee> getById(@PathVariable Long id) {
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+    }
+
+    /**
+     * 编辑、保存员工信息
+     *
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("编辑保存员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("编辑、保存员工信息");
+        employeeService.update(employeeDTO);
+        return Result.success();
+    }
 }

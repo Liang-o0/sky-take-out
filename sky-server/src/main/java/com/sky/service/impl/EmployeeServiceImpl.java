@@ -96,6 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * 具体实现分页查询的方法
      * EmployeeService接口类只规定“要有哪些功能”
      * 继承接口类的实现类EmployeeServiceImpl真正写出“这些功能怎么做”
+     *
      * @param employeePageQueryDTO
      * @return
      */
@@ -106,7 +107,57 @@ public class EmployeeServiceImpl implements EmployeeService {
         PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
         Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
         long total = page.getTotal();
-        List<Employee>records = page.getResult();
-        return new PageResult(total,records);
+        List<Employee> records = page.getResult();
+        return new PageResult(total, records);
+    }
+
+    /**
+     * 启用、禁用员工账号的方法
+     *
+     * @param status
+     * @param id
+     */
+    @Override
+    public void startOrstop(Integer status, Long id) {
+        /**
+         * Employee employee = new Employee();
+         *         employee.setStatus(status);
+         *         employee.setId(id);
+         *         因为添加了@builder注解，在创建实体对象的时候不用这么麻烦
+         */
+
+        Employee employee = Employee.builder()
+                .id(id)
+                .status(status)
+                //.updateTime(updateTime)
+                .build();
+        employeeMapper.update(employee);
+    }
+
+    /**
+     * 根据员工id查询员工相关信息
+     *
+     * @param id
+     * @return
+     */
+    // TODO 为什么146行写成EmployeeMapper，在EmployeeMapper类中自动生成的方法带static
+    @Override
+    public Employee getById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("*********");
+        return employee;
+    }
+
+    /**
+     * 编辑保存员工信息
+     * @param employeeDTO
+     */
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee  employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO,employee);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
     }
 }
