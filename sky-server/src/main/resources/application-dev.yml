@@ -6,3 +6,21 @@ sky:
     database: sky_take_out
     username: root
     password: Pwl20050915
+  redis:
+    host: localhost
+    port: 6379
+    password: PWL20050915
+    database: 1
+  #    database数据库不配置，默认使用0号数据库
+  wechat:
+    secret: c98d43b74ea6e341021efa3ffe5e98d3
+    appid: wx0c11822af6df45cc
+    mchid: 1561414331
+    mch-serial-no: 4B3B3DC35414AD50B1B755BAF8DE9CC7CF407606
+    # 私钥文件路径
+    #private-key-file-path:
+    api-v3-key: CZBK51236435wxpay435434323FFDuv3
+    # 支付证书文件路径
+    #we-chat-pay-cert-file-path:
+    notify-url: http://69e4a195.r18.cpolar.top/notify/paySuccess
+    refund-notify-url: http://69e4a195.r18.cpolar.top/notify/refundSuccess
